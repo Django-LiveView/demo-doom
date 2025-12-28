@@ -1,0 +1,5 @@
+<div class="pixel-grid" style="display: grid; grid-template-columns: repeat({{ width }}, 6px); grid-template-rows: repeat({{ height }}, 6px); gap: 0; width: fit-content;">
+	{% for color in pixels %}
+	<div style="background-color: {{ color }};"></div>
+	{% endfor %}
+</div>

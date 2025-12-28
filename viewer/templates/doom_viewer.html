@@ -1,0 +1,139 @@
+{% load static liveview %}
+<!DOCTYPE html>
+<html lang="en" data-room="shared">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ViZDoom Pixel Viewer</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 20px;
+			background-color: #1a1a1a;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			min-height: 100vh;
+			font-family: 'Courier New', monospace;
+			color: #fff;
+		}
+
+		h1 {
+			margin-bottom: 20px;
+			font-size: 24px;
+			text-align: center;
+		}
+
+		#doom-container {
+			border: 2px solid #00ff00;
+			box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+			min-width: 600px;
+			min-height: 600px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.loading {
+			color: #00ff00;
+			font-size: 18px;
+		}
+
+		.controls {
+			margin-top: 20px;
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+
+		.controls button {
+			background-color: #00ff00;
+			color: #000;
+			border: none;
+			padding: 15px 30px;
+			font-size: 16px;
+			font-weight: bold;
+			cursor: pointer;
+			border-radius: 5px;
+			font-family: 'Courier New', monospace;
+		}
+
+		.controls button:hover {
+			background-color: #00cc00;
+		}
+
+		.controls button:active {
+			background-color: #009900;
+		}
+
+		.pixel-grid div {
+			width: 6px;
+			height: 6px;
+		}
+	</style>
+</head>
+<body data-controller="page">
+	<h1>Rendering Doom from Django in real time<br>demo testing the performance of Django Liveview</h1>
+	<div id="doom-container">
+		<div class="loading">Initializing ViZDoom...</div>
+	</div>
+
+	<div class="controls">
+		<button id="start-btn"
+				data-liveview-function="start_doom"
+				data-action="click->page#run">START GAME</button>
+	</div>
+
+	<div class="controls">
+		<button id="forward-btn" data-liveview-function="move_forward" data-action="click->page#run">
+			⬆️ FORWARD (↑)
+		</button>
+		<button id="left-btn" data-liveview-function="turn_left" data-action="click->page#run">
+			⬅️ LEFT (←)
+		</button>
+		<button id="right-btn" data-liveview-function="turn_right" data-action="click->page#run">
+			➡️ RIGHT (→)
+		</button>
+		<button id="shoot-btn" data-liveview-function="shoot" data-action="click->page#run">
+			🔫 SHOOT (SPACE)
+		</button>
+	</div>
+
+	<script src="{% static 'liveview/liveview.min.js' %}" defer></script>
+	<script>
+		// Keyboard controls
+		document.addEventListener('keydown', function(e) {
+			// Prevent default behavior for game keys
+			if (['ArrowUp', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+				e.preventDefault();
+			}
+
+			// Map keys to buttons and trigger clicks
+			let buttonId = null;
+			switch(e.key) {
+				case 'ArrowUp':
+					buttonId = 'forward-btn';
+					break;
+				case 'ArrowLeft':
+					buttonId = 'left-btn';
+					break;
+				case 'ArrowRight':
+					buttonId = 'right-btn';
+					break;
+				case ' ':
+					buttonId = 'shoot-btn';
+					break;
+			}
+
+			if (buttonId) {
+				const btn = document.getElementById(buttonId);
+				if (btn) {
+					btn.click();
+				}
+			}
+		});
+	</script>
+</body>
+</html>

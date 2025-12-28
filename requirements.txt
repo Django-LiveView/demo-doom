@@ -1,0 +1,6 @@
+Django==5.0.1
+django-liveview==2.1.8
+vizdoom==1.2.3
+numpy==1.26.3
+Pillow==10.2.0
+daphne==4.1.0
