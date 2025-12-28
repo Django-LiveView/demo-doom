@@ -2,6 +2,10 @@
 
 Integration demo of VizDoom with Django-LiveView for real-time game visualization.
 
+## Demo Video
+
+Watch the demo in action: [VizDoom Django-LiveView Demo](https://en.andros.dev/media/blog/2025/12/doom-django-liveview.mp4)
+
 ## How to run
 
 1. Make sure you have Docker and Docker Compose installed
