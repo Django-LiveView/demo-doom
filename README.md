@@ -1,27 +1,27 @@
 # VizDoom LiveView Demo
 
-Demo de integración de VizDoom con Django-LiveView para visualización en tiempo real del juego.
+Integration demo of VizDoom with Django-LiveView for real-time game visualization.
 
-## Cómo levantar el proyecto
+## How to run
 
-1. Asegúrate de tener Docker y Docker Compose instalados
+1. Make sure you have Docker and Docker Compose installed
 
-2. Levanta los servicios:
+2. Start the services:
 ```bash
 docker-compose up --build
 ```
 
-3. Accede a la aplicación en tu navegador:
+3. Access the application in your browser:
 ```
 http://localhost:8001
 ```
 
-## Requisitos
+## Requirements
 
 - Docker
 - Docker Compose
 
-## Servicios
+## Services
 
-- **Web**: Aplicación Django con LiveView (puerto 8001)
-- **Redis**: Cache y mensajería para Django-LiveView (puerto 6379)
+- **Web**: Django application with LiveView (port 8001)
+- **Redis**: Cache and messaging for Django-LiveView (port 6379)
