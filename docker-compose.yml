@@ -7,6 +7,7 @@ services:
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
+    # Find your own DOOM.WAD and put it in origin folder
     volumes:
       - .:/app
     ports:
