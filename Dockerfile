@@ -34,6 +34,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project files
 COPY . /app/
+# Find your own doom.wad and place it in origin folder
+COPY doom.wad /tmp/doom1.wad
 
 # Expose Django port
 EXPOSE 8000
