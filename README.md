@@ -17,7 +17,7 @@ docker-compose up --build
 
 3. Access the application in your browser:
 ```
-http://localhost:8001
+http://localhost:8080
 ```
 
 ## Requirements
@@ -27,5 +27,5 @@ http://localhost:8001
 
 ## Services
 
-- **Web**: Django application with LiveView (port 8001)
+- **Web**: Django application with LiveView (port 8080)
 - **Redis**: Cache and messaging for Django-LiveView (port 6379)
