@@ -1,12 +1,12 @@
-import time
 import threading
+import time
+
 import numpy as np
-import random
 import vizdoom
-from vizdoom import DoomGame, ScreenResolution, ScreenFormat, Mode
-from PIL import Image
 from django.template.loader import render_to_string
 from liveview import liveview_handler, send
+from PIL import Image
+from vizdoom import DoomGame, Mode, ScreenFormat, ScreenResolution
 
 # Global game state
 game_instances = {}
@@ -31,12 +31,15 @@ def init_doom():
 	game.set_render_particles(False)
 	game.set_window_visible(False)
 	game.set_mode(Mode.PLAYER)
-	game.set_available_buttons([
-		vizdoom.Button.MOVE_FORWARD,
-		vizdoom.Button.TURN_LEFT,
-		vizdoom.Button.TURN_RIGHT,
-		vizdoom.Button.ATTACK,
-	])
+	game.set_available_buttons(
+		[
+			vizdoom.Button.MOVE_FORWARD,
+			vizdoom.Button.TURN_LEFT,
+			vizdoom.Button.TURN_RIGHT,
+			vizdoom.Button.ATTACK,
+			vizdoom.Button.USE,
+		]
+	)
 	game.init()
 	return game
 
@@ -55,7 +58,7 @@ def game_loop(consumer, room):
 				game.new_episode()
 
 			# Execute no action by default
-			game.make_action([0, 0, 0, 0], 1)
+			game.make_action([0, 0, 0, 0, 0], 1)
 			state = game.get_state()
 
 			if state:
@@ -98,7 +101,7 @@ def game_loop(consumer, room):
 
 @liveview_handler("start_doom")
 def start_doom(consumer, content):
-	"""Initialize and start ViZDoom streaming"""
+	"""Start streaming, or restart the level if it is already running"""
 	room = "shared"  # Force all clients to use the same room
 
 	if room not in running_games or not running_games[room]:
@@ -110,6 +113,11 @@ def start_doom(consumer, content):
 		thread = threading.Thread(target=game_loop, args=(consumer, room), daemon=True)
 		game_threads[room] = thread
 		thread.start()
+	else:
+		# Already running: restart the current level
+		game = game_instances.get(room)
+		if game:
+			game.new_episode()
 
 
 @liveview_handler("stop_doom")
@@ -125,7 +133,7 @@ def move_forward(consumer, content):
 	room = "shared"
 	game = game_instances.get(room)
 	if game:
-		game.make_action([1, 0, 0, 0], 4)
+		game.make_action([1, 0, 0, 0, 0], 4)
 
 
 @liveview_handler("turn_left")
@@ -134,7 +142,7 @@ def turn_left(consumer, content):
 	room = "shared"
 	game = game_instances.get(room)
 	if game:
-		game.make_action([0, 1, 0, 0], 4)
+		game.make_action([0, 1, 0, 0, 0], 4)
 
 
 @liveview_handler("turn_right")
@@ -143,7 +151,7 @@ def turn_right(consumer, content):
 	room = "shared"
 	game = game_instances.get(room)
 	if game:
-		game.make_action([0, 0, 1, 0], 4)
+		game.make_action([0, 0, 1, 0, 0], 4)
 
 
 @liveview_handler("shoot")
@@ -152,4 +160,13 @@ def shoot(consumer, content):
 	room = "shared"
 	game = game_instances.get(room)
 	if game:
-		game.make_action([0, 0, 0, 1], 4)
+		game.make_action([0, 0, 0, 1, 0], 4)
+
+
+@liveview_handler("use_action")
+def use_action(consumer, content):
+	"""Use / open doors and switches"""
+	room = "shared"
+	game = game_instances.get(room)
+	if game:
+		game.make_action([0, 0, 0, 0, 1], 8)

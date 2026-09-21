@@ -83,7 +83,7 @@
 	<div class="controls">
 		<button id="start-btn"
 				data-liveview-function="start_doom"
-				data-action="click->page#run">START GAME</button>
+				data-action="click->page#run">🔄 START / RESTART</button>
 	</div>
 
 	<div class="controls">
@@ -99,6 +99,9 @@
 		<button id="shoot-btn" data-liveview-function="shoot" data-action="click->page#run">
 			🔫 SHOOT (SPACE)
 		</button>
+		<button id="use-btn" data-liveview-function="use_action" data-action="click->page#run">
+			🚪 USE / OPEN (E)
+		</button>
 	</div>
 
 	<script src="{% static 'liveview/liveview.min.js' %}" defer></script>
@@ -106,7 +109,7 @@
 		// Keyboard controls: forward the game keys to the on-screen buttons
 		document.addEventListener('keydown', function(e) {
 			// Prevent default behavior for game keys
-			if (['ArrowUp', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+			if (['ArrowUp', 'ArrowLeft', 'ArrowRight', ' ', 'e', 'E'].includes(e.key)) {
 				e.preventDefault();
 			}
 
@@ -124,6 +127,10 @@
 					break;
 				case ' ':
 					buttonId = 'shoot-btn';
+					break;
+				case 'e':
+				case 'E':
+					buttonId = 'use-btn';
 					break;
 			}
 
