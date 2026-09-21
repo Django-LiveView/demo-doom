@@ -84,7 +84,7 @@ def game_loop(consumer, room):
 				# Broadcast update to all clients
 				send(consumer, {"target": "#doom-container", "html": html}, broadcast=True)
 
-			time.sleep(0.0167)  # ~60 FPS
+			time.sleep(0.1)  # ~10 FPS (full-frame HTML over WebSocket is heavy)
 
 		except Exception as e:
 			print(f"Error in game loop: {e}")

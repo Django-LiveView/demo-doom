@@ -103,7 +103,7 @@
 
 	<script src="{% static 'liveview/liveview.min.js' %}" defer></script>
 	<script>
-		// Keyboard controls
+		// Keyboard controls: forward the game keys to the on-screen buttons
 		document.addEventListener('keydown', function(e) {
 			// Prevent default behavior for game keys
 			if (['ArrowUp', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {

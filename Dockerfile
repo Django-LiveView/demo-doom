@@ -28,6 +28,9 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
+# Download the freely distributable Doom shareware IWAD (episode 1, E1M1)
+RUN wget -O /tmp/doom1.wad https://github.com/Akbar30Bill/DOOM_wads/raw/master/doom1.wad
+
 # Copy requirements and install Python packages
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt

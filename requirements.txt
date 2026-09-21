@@ -1,5 +1,7 @@
 Django==5.0.1
-django-liveview==2.1.8
+django-liveview==2.3.0
+channels==4.1.0
+channels-redis==4.2.0
 vizdoom==1.2.3
 numpy==1.26.3
 Pillow==10.2.0
